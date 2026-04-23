@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -11,14 +11,20 @@
 :root{--primary:#00D4FF;--primary-light:#00FFFF;--accent:#FF00FF;--glass:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.1)}
 html{scroll-behavior:smooth}
 body{font-family:'Noto Sans SC',sans-serif;background:#000;color:#fff;overflow-x:hidden;line-height:1.6}
-.cursor{position:fixed;width:32px;height:40px;pointer-events:none;z-index:99999;transform:translate(-40%,-20%) rotate(-45deg);animation:spaceshipGlow 1.5s infinite}
-.cursor::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.cursor::after{content:'';position:absolute}
-@keyframes spaceshipGlow{0%,100%{filter:drop-shadow(0 0 10px rgba(0,255,255,1)) drop-shadow(0 0 25px rgba(0,212,255,0.7)) drop-shadow(0 0 40px rgba(0,212,255,0.5))}50%{filter:drop-shadow(0 0 18px rgba(0,255,255,1)) drop-shadow(0 0 35px rgba(0,212,255,0.9)) drop-shadow(0 0 55px rgba(0,212,255,0.7))}}
-.cursor.hover{transform:translate(-40%,-20%) rotate(-45deg) scale(1.4);filter:drop-shadow(0 0 25px rgba(255,0,255,1)) drop-shadow(0 0 50px rgba(255,0,255,0.8)) drop-shadow(0 0 70px rgba(255,0,255,0.6))}
-#trail-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99998;overflow:hidden}
-.trail-particle{position:absolute;border-radius:50%;pointer-events:none;animation:energyTrail 1.8s ease-out forwards}
-@keyframes energyTrail{0%{opacity:0.95;transform:scale(1) translate(0,0);filter:blur(0px)}25%{opacity:0.85;transform:scale(1.4) translate(-5px,7px);filter:blur(2px)}50%{opacity:0.65;transform:scale(1.8) translate(-10px,16px);filter:blur(4px)}75%{opacity:0.4;transform:scale(2.2) translate(-15px,25px);filter:blur(6px)}100%{opacity:0;transform:scale(2.6) translate(-20px,36px);filter:blur(9px)}}
+/* 自定义发光三角形鼠标 */
+.custom-cursor{position:fixed;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:14px solid #00f0ff;pointer-events:none;z-index:99999;transform:translate(-50%,-50%) rotate(-15deg);filter:drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 12px #00f0ff) drop-shadow(0 0 20px #00f0ff);transition:transform 0.05s ease-out}
+.custom-cursor::after{content:'';position:absolute;top:14px;left:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:6px solid rgba(0,240,255,0.3);filter:blur(2px)}
+/* 鼠标拖尾特效 */
+.cursor-trail{position:fixed;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #00f0ff;pointer-events:none;z-index:99998;transform:translate(-50%,-50%) rotate(-15deg);filter:drop-shadow(0 0 4px #00f0ff);opacity:0.8}
+.cursor-trail:nth-child(2){border-bottom-color:#00d4ff;filter:drop-shadow(0 0 5px #00d4ff);z-index:99997}
+.cursor-trail:nth-child(3){border-bottom-color:#00b8ff;filter:drop-shadow(0 0 6px #00b8ff);z-index:99996}
+.cursor-trail:nth-child(4){border-bottom-color:#009cff;filter:drop-shadow(0 0 7px #009cff);z-index:99995}
+.cursor-trail:nth-child(5){border-bottom-color:#0080ff;filter:drop-shadow(0 0 8px #0080ff);z-index:99994}
+.cursor-trail:nth-child(6){border-bottom-color:#7b2fff;filter:drop-shadow(0 0 9px #7b2fff);z-index:99993}
+.cursor-trail:nth-child(7){border-bottom-color:#9d4fff;filter:drop-shadow(0 0 10px #9d4fff);z-index:99992}
+.cursor-trail:nth-child(8){border-bottom-color:#bf6fff;filter:drop-shadow(0 0 11px #bf6fff);z-index:99991}
+/* 向后兼容 */
+.cursor{position:fixed;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:14px solid #00f0ff;pointer-events:none;z-index:99999;transform:translate(-50%,-50%) rotate(-15deg);filter:drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 12px #00f0ff) drop-shadow(0 0 20px #00f0ff)}
 #starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
 header{position:fixed;top:0;left:0;width:100%;padding:25px 60px;display:flex;justify-content:space-between;align-items:center;z-index:1000;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,transparent 100%)}
 .logo{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(--primary),var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logoGlow 3s infinite}
@@ -163,37 +169,61 @@ nav a:hover::before{width:100%}
 .lightbox-video{display:none}
 .lightbox.video-mode .lightbox-img{display:none}
 .lightbox.video-mode .lightbox-video{display:block}
-.contact{min-height:60vh;padding:110px 5%;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden}
+.contact{min-height:50vh;padding:70px 5%;margin-top:250px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden}
 .hologram-container{position:relative;width:100%;max-width:1400px;margin:0 auto;perspective:950px}
 .hologram-scanlines{position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(0,212,255,0.025) 2px,rgba(0,212,255,0.025) 4px);pointer-events:none;z-index:1;animation:scanlineMove 8s linear infinite}
 @keyframes scanlineMove{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
-.hologram-grid{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:750px;height:750px;background-image:linear-gradient(rgba(0,212,255,0.09) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.09) 1px,transparent 1px);background-size:40px 40px;opacity:0.25;animation:gridRotate 20s linear infinite}
+.hologram-grid{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:550px;height:550px;background-image:linear-gradient(rgba(0,212,255,0.09) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.09) 1px,transparent 1px);background-size:40px 40px;opacity:0.25;animation:gridRotate 20s linear infinite}
 @keyframes gridRotate{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
-.hologram-title{font-family:'Orbitron',sans-serif;font-size:clamp(45px,8vw,90px);font-weight:900;letter-spacing:13px;margin-bottom:20px;background:linear-gradient(135deg,var(--primary),var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:2;animation:titleFloat 3s ease-in-out infinite}
+.hologram-title{font-family:'Orbitron',sans-serif;font-size:clamp(36px,6vw,70px);font-weight:900;letter-spacing:10px;margin-bottom:14px;background:linear-gradient(135deg,var(--primary),var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:2;animation:titleFloat 3s ease-in-out infinite}
 @keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.hologram-subtitle{font-size:17px;color:rgba(255,255,255,0.45);letter-spacing:4px;margin-bottom:55px;position:relative;z-index:2}
-.hologram-cards{display:flex;gap:45px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;margin-bottom:50px}
-.hologram-card{background:linear-gradient(135deg,rgba(0,212,255,0.09),rgba(255,0,255,0.045),rgba(0,255,255,0.07));border:1.5px solid rgba(0,212,255,0.35);border-radius:26px;padding:45px 55px;min-width:350px;position:relative;overflow:hidden;backdrop-filter:blur(18px);animation:cardFloat 4s ease-in-out infinite;transition:all 0.3s}
+.hologram-subtitle{font-size:15px;color:rgba(255,255,255,0.45);letter-spacing:3px;margin-bottom:35px;position:relative;z-index:2}
+.hologram-cards{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;margin-bottom:35px}
+.hologram-card{background:linear-gradient(135deg,rgba(0,212,255,0.09),rgba(255,0,255,0.045),rgba(0,255,255,0.07));border:1.5px solid rgba(0,212,255,0.35);border-radius:22px;padding:32px 40px;min-width:290px;position:relative;overflow:hidden;backdrop-filter:blur(18px);animation:cardFloat 4s ease-in-out infinite;transition:all 0.3s}
 .hologram-card:nth-child(2){animation-delay:0.5s}
 @keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 .hologram-card::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.35),transparent);animation:shimmer 3s infinite}
 @keyframes shimmer{0%{left:-100%}100%{left:100%}}
 .hologram-card:hover{transform:translateY(-20px)!important;border-color:var(--primary-light);box-shadow:0 0 50px rgba(0,255,255,0.45)}
-.hologram-icon{width:75px;height:75px;margin:0 auto 28px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:3;box-shadow:0 0 35px rgba(0,212,255,0.55)}
-.hologram-icon svg{width:33px;height:33px;color:#fff}
+.hologram-icon{width:58px;height:58px;margin:0 auto 20px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:3;box-shadow:0 0 35px rgba(0,212,255,0.55)}
+.hologram-icon svg{width:26px;height:26px;color:#fff}
 .hologram-info{position:relative;z-index:3}
-.hologram-info h3{font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:6px;margin-bottom:16px;color:var(--primary-light);text-transform:uppercase}
-.hologram-text{color:#fff;text-decoration:none;font-size:22px;font-weight:500;transition:all 0.3s;position:relative;z-index:3;display:block}
+.hologram-info h3{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:5px;margin-bottom:12px;color:var(--primary-light);text-transform:uppercase}
+.hologram-text{color:#fff;text-decoration:none;font-size:18px;font-weight:500;transition:all 0.3s;position:relative;z-index:3;display:block}
 .hologram-text:hover{color:var(--primary-light);text-shadow:0 0 25px var(--primary)}
 .hologram-glitch{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px;font-weight:500;color:var(--accent);opacity:0;pointer-events:none;z-index:1;animation:glitchText 3s infinite}
 @keyframes glitchText{0%,85%,100%{opacity:0;transform:translate(-50%,-50%)}87%{opacity:0.7;transform:translate(-52%,-48%)}89%{opacity:0.5;transform:translate(-48%,-52%)}91%{opacity:0}}
-.hologram-links{display:flex;gap:35px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
-.hologram-link{display:flex;align-items:center;gap:20px;background:rgba(0,212,255,0.06);border:1.5px solid rgba(0,212,255,0.25);border-radius:19px;padding:28px 40px;text-decoration:none;transition:all 0.3s;min-width:370px;backdrop-filter:blur(12px)}
-.hologram-link:hover{background:rgba(0,212,255,0.12);border-color:var(--primary);transform:translateY(-10px);box-shadow:0 12px 45px rgba(0,212,255,0.35)}
-.link-icon{font-size:40px;animation:linkFloat 2s ease-in-out infinite}
-@keyframes linkFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.link-content h4{font-family:'Orbitron',sans-serif;font-size:18px;color:var(--primary-light);margin-bottom:11px;letter-spacing:2px}
-.link-content p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6}
+
+
+/* ===== 设计师推荐分享区 ===== */
+.share-section{position:relative;z-index:2;margin-top:50px;padding:0 20px}
+.share-label{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:4px;color:var(--primary);text-transform:uppercase;margin-bottom:18px;text-align:center;opacity:0.7}
+.share-item{display:flex;align-items:center;gap:18px;padding:16px 25px;margin-bottom:12px;background:linear-gradient(135deg,rgba(0,212,255,0.04),rgba(255,0,255,0.02));border-left:2px solid var(--primary);text-decoration:none;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
+.share-item::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(90deg,rgba(0,212,255,0.1),transparent);opacity:0;transition:opacity 0.4s}
+.share-item:hover::before{opacity:1}
+.share-item:hover{border-left-color:var(--accent);transform:translateX(10px);background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(255,0,255,0.05))}
+.share-line{width:40px;height:1px;background:linear-gradient(90deg,var(--primary),transparent);transition:all 0.4s;flex-shrink:0}
+.share-item:hover .share-line{width:60px;background:linear-gradient(90deg,var(--accent),var(--primary),transparent)}
+.share-content{flex:1}
+.share-name{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:4px;transition:all 0.3s}
+.share-item:hover .share-name{color:var(--primary-light);text-shadow:0 0 30px rgba(0,212,255,0.6)}
+.share-desc{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.4;transition:all 0.3s}
+.share-item:hover .share-desc{color:rgba(255,255,255,0.75)}
+.share-arrow{font-family:'Orbitron',sans-serif;font-size:24px;color:var(--primary);opacity:0.6;transition:all 0.3s;flex-shrink:0}
+.share-item:hover .share-arrow{opacity:1;color:var(--accent);transform:translateX(8px)}
+
+/* 响应式：分享区 */
+@media(max-width:768px){
+.share-section{margin-top:35px;padding:0 10px}
+.share-label{font-size:10px;letter-spacing:4px;margin-bottom:20px}
+.share-item{flex-direction:column;align-items:flex-start;gap:15px;padding:22px 25px;margin-bottom:15px}
+.share-line{width:30px}
+.share-item:hover .share-line{width:45px}
+.share-name{font-size:18px;letter-spacing:2px}
+.share-desc{font-size:13px;line-height:1.6}
+.share-arrow{align-self:flex-end;font-size:20px}
+}
+
 footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid var(--glass-border);background:rgba(0,0,0,0.5)}
 .music-control{position:fixed;bottom:30px;right:30px;z-index:10000}
 .hamburger{display:none;flex-direction:column;gap:6px;width:36px;height:36px;background:none;border:none;z-index:1001;cursor:pointer;padding:6px;justify-content:center;align-items:center}
@@ -213,7 +243,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 @media(max-width:768px){
   /* 基础 */
   *{cursor:auto!important}
-  .cursor,.trail-particle,#trail-container{display:none!important}
+  .cursor,.trail-particle,.custom-cursor,#trail1,#trail2,#trail3,#trail4,#trail5,#trail6,#trail7,#trail8{display:none!important}
   body{font-size:16px}
 
   /* 导航汉堡菜单 */
@@ -292,11 +322,6 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
   .hologram-info h3{font-size:11px;letter-spacing:4px;margin-bottom:12px}
   .hologram-text{font-size:18px}
   .hologram-glitch{font-size:16px}
-  .hologram-links{flex-direction:column;align-items:center;gap:20px}
-  .hologram-link{min-width:auto;width:100%;max-width:360px;padding:22px 28px;border-radius:16px;gap:15px}
-  .link-icon{font-size:32px}
-  .link-content h4{font-size:16px;margin-bottom:6px}
-  .link-content p{font-size:13px;line-height:1.5}
   .hologram-grid{width:400px;height:400px}
   .hologram-scanlines{display:none}
 
@@ -335,7 +360,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
   .hologram-title{letter-spacing:4px}
   .hologram-card{padding:25px 28px;max-width:300px}
   .hologram-text{font-size:16px}
-  .hologram-link{max-width:320px;padding:18px 22px}
+  
   .timeline{padding-left:35px}
   .timeline-dot{left:-29px;width:10px;height:10px}
   .timeline-content{padding:16px 14px}
@@ -486,8 +511,8 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
   </div>
 </div>
 <div class="loading" id="loading"><div class="loader"></div></div>
-<div class="cursor" id="cursor"></div>
-<div id="trail-container"></div>
+<div class="custom-cursor" id="cursor"></div>
+<div class="cursor-trail" id="trail1"></div><div class="cursor-trail" id="trail2"></div><div class="cursor-trail" id="trail3"></div><div class="cursor-trail" id="trail4"></div><div class="cursor-trail" id="trail5"></div><div class="cursor-trail" id="trail6"></div><div class="cursor-trail" id="trail7"></div><div class="cursor-trail" id="trail8"></div>
 <canvas id="starfield"></canvas>
 <header>
 <div class="logo">WJJ.STUDIO</div>
@@ -508,7 +533,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 </section>
 <section class="about" id="about">
 
-<div class="about-image"><img src="assets/images/about-photo.png" alt="王家驹"></div>
+<div class="about-image"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%9B%BE%E7%89%87%E8%83%8C%E6%99%AF%E6%9B%BF%E6%8D%A2.png" alt="王家驹"></div>
 <div class="about-content">
 <div class="section-label">About Me</div>
 <h2>关于我</h2>
@@ -600,8 +625,8 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="timeline-title">精细化制作</div>
 <div class="timeline-desc">运用 AIGC / C4D / PS / AE 等专业工具，将概念转化为高品质视觉作品，注重每一个细节</div>
 <div class="timeline-images">
-<img src="assets/images/workflow-screenshot.png" alt="创作过程1">
-<img src="assets/images/ip-design-process.png" alt="创作过程2">
+<img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(172).png" alt="创作过程1">
+<img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/IP%E5%BD%A2%E8%B1%A1%E5%88%B6%E4%BD%9C%E8%BF%87%E7%A8%8B2.png" alt="创作过程2">
 </div>
 <div class="timeline-tags"><span>AIGC生成</span><span>3D建模</span><span>精修渲染</span></div>
 </div>
@@ -631,38 +656,38 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <h2 class="section-title">作品集</h2>
 <div class="portfolio-grid">
 <div class="portfolio-card"><h3>AI影像</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="assets/ai-visuals/storyboard-01.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ai-visuals/storyboard-02.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ai-visuals/storyboard-03.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ai-visuals/storyboard-04.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ai-visuals/storyboard-05.png"><div class="overlay"></div></div>
-<div class="portfolio-item video-item"><video id="aiVideo" src="https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-videos/trailer.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C1.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C2.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C3.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C4.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C5.png"><div class="overlay"></div></div>
+<div class="portfolio-item video-item"><video id="aiVideo" src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E9%A2%84%E5%91%8A%E7%89%87.mp4?v=2" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
 </div></div>
 <div class="portfolio-card"><h3>平面设计</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="assets/graphic-design/superman.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/graphic-design/washing-machine.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/graphic-design/ocean-outfit.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/graphic-design/crystal-brick.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/superman.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E6%B4%97%E8%A1%A3%E6%9C%BA.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E6%B5%B7%E6%B4%8B%E5%A5%97%E8%A3%85.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E9%80%8F%E6%98%8E%E6%B0%B4%E6%99%B6%E7%A0%96.jpg"><div class="overlay"></div></div>
 </div></div>
 <div class="portfolio-card"><h3>3D模型</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="assets/3d-models/phone-white-model.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/3d-models/phone-render.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/3d-models/bathroom-white-model.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/3d-models/bathroom-render.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%89%8B%E6%9C%BA%E7%99%BD%E8%86%9C.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%89%8B%E6%9C%BA%E6%B8%B2%E6%9F%93%E5%9B%BE.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%B5%B4%E5%AE%A4%E7%99%BD%E8%86%9C.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%B5%B4%E5%AE%A4%E6%B8%B2%E6%9F%93%E5%9B%BE.png"><div class="overlay"></div></div>
 </div></div>
 <div class="portfolio-card"><h3>电商美学</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="assets/ecommerce/beer-ad-01.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ecommerce/beer-ad-02.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ecommerce/figure-ecom-01.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ecommerce/figure-ecom-02.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ecommerce/figure-ecom-03.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/ecommerce/handwash-ecom.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E5%95%A4%E9%85%92%E5%B9%BF%E5%91%8A1.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E5%95%A4%E9%85%92%E5%B9%BF%E5%91%8A2.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE1.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE2.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE3.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%B4%97%E6%89%8B%E6%B6%B2%E7%94%B5%E5%95%86%E5%9B%BE1.png"><div class="overlay"></div></div>
 </div></div>
 <div class="portfolio-card"><h3>摄影剪辑</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="assets/video-works/photo-01.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="assets/video-works/photo-02.jpeg"><div class="overlay"></div></div>
-<div class="portfolio-item video-item"><video id="su7Video" src="https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-videos/xiaomi-su7-ultra.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
-<div class="portfolio-item video-item"><video id="hangzhouVideo" src="https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-videos/hangzhou-geometry.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/5882ee927d974599ec3bca3a17245fef.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/fRhmTrrUE.jpeg"><div class="overlay"></div></div>
+<div class="portfolio-item video-item"><video id="su7Video" src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/%E5%B0%8F%E7%B1%B3%E8%8B%8F7%20ultra.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item video-item"><video id="hangzhouVideo" src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/%E6%9D%AD%E5%B7%9E%E5%87%A0%E4%BD%95.mp4?v=2" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
 </div></div>
 </div>
 </section>
@@ -701,27 +726,30 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="hologram-glitch" aria-hidden="true">181-2800-3285</div>
 </div>
 </div>
-<div class="hologram-links">
-<a href="https://skillsmp.com/" target="_blank" class="hologram-link">
-<div class="link-icon">🛒</div>
-<div class="link-content">
-<h4>SkillsMP</h4>
-<p>全网规模领先的Agent Skills市场<br>数万至数十万开源技能 · 同步GitHub</p>
+<div class="share-section">
+<div class="share-label">设计师的私藏工具箱</div>
+<a href="https://skillsmp.com/" target="_blank" class="share-item">
+<div class="share-line"></div>
+<div class="share-content">
+<div class="share-name">SkillsMP</div>
+<div class="share-desc">AI 技能市场 · 让能力触手可及</div>
 </div>
+<div class="share-arrow">→</div>
 </a>
-<a href="https://github.com/" target="_blank" class="hologram-link">
-<div class="link-icon">💻</div>
-<div class="link-content">
-<h4>GitHub</h4>
-<p>全球最大的代码托管平台<br>开源项目 · 协作开发 · 版本控制</p>
+<a href="https://github.com/" target="_blank" class="share-item">
+<div class="share-line"></div>
+<div class="share-content">
+<div class="share-name">GitHub</div>
+<div class="share-desc">开源代码仓库 · 灵感碰撞之地</div>
 </div>
+<div class="share-arrow">→</div>
 </a>
 </div>
 </div>
 </section>
 <footer><p>© 2026 王家驹 | 创意设计师 | AIGC先锋探索者 | WJJ.STUDIO</p></footer>
 <div class="music-control"><button class="music-btn" id="musicBtn" title="播放背景音乐"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></button></div>
-<audio id="bgMusic" loop preload="auto"><source src="assets/music/bgm.ogg" type="audio/ogg"></audio>
+<audio id="bgMusic" loop preload="auto"><source src="file:///C:/Users/Administrator/Desktop/%E5%88%9B%E4%BD%9C/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E9%9F%B3%E4%B9%90/Groove%20Coverage%20-%20God%20Is%20a%20Girl%20(Chillout%20Mix)_L.ogg" type="audio/ogg"></audio>
 <script>
 // ===== 进场动画音效卡点 =====
 (function(){
@@ -787,44 +815,43 @@ const starsMaterial=new THREE.PointsMaterial({size:2,vertexColors:true,transpare
 scene.add(starField);camera.position.z=500;
 function animate(){requestAnimationFrame(animate);starField.rotation.y+=0.0002;starField.rotation.x+=0.0001;renderer.render(scene,camera)}animate();
 addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-const cursor=document.getElementById("cursor"),trailContainer=document.getElementById("trail-container");
-// 创建飞船SVG
-var shipSVG=`<svg viewBox="0 0 40 50" style="width:100%;height:100%">
-<!-- 引擎火焰 -->
-<defs>
-<linearGradient id="flameGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#00FFFF;stop-opacity:0.9"/>
-<stop offset="50%" style="stop-color:#00D4FF;stop-opacity:0.6"/>
-<stop offset="100%" style="stop-color:#0099CC;stop-opacity:0"/>
-</linearGradient>
-<linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#00FFFF"/>
-<stop offset="40%" style="stop-color:#00D4FF"/>
-<stop offset="100%" style="stop-color:#0088BB"/>
-</linearGradient>
-<filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>
-<!-- 引擎火焰（尾部） -->
-<ellipse cx="20" cy="46" rx="8" ry="6" fill="url(#flameGrad)" opacity="0.8">
-<animate attributeName="ry" values="6;9;6" dur="0.15s" repeatCount="indefinite"/>
-<animate attributeName="opacity" values="0.8;1;0.8" dur="0.15s" repeatCount="indefinite"/>
-</ellipse>
-<!-- 机翼（左） -->
-<path d="M5,35 L0,45 L12,40 Z" fill="#00B8E6" filter="url(#glow)"/>
-<!-- 机翼（右） -->
-<path d="M35,35 L40,45 L28,40 Z" fill="#00B8E6" filter="url(#glow)"/>
-<!-- 机身 -->
-<path d="M20,0 L28,15 L30,35 L20,40 L10,35 L12,15 Z" fill="url(#bodyGrad)" filter="url(#glow)"/>
-<!-- 驾驶舱 -->
-<ellipse cx="20" cy="18" rx="5" ry="8" fill="rgba(255,255,255,0.8)" filter="url(#glow)"/>
-<ellipse cx="20" cy="16" rx="3" ry="5" fill="rgba(200,255,255,0.9)"/>
-<!-- 机翼装饰线 -->
-<line x1="8" y1="38" x2="4" y2="43" stroke="#00FFFF" stroke-width="1.5" opacity="0.6"/>
-<line x1="32" y1="38" x2="36" y2="43" stroke="#00FFFF" stroke-width="1.5" opacity="0.6"/>
-</svg>`;
-cursor.innerHTML=shipSVG;
-document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";// 拖尾效果：青色/白色能量粒子，再加强版
-if(Math.random()>0.28){const p=document.createElement("div");p.className="trail-particle";const s=Math.random()*7+5;const hue=Math.random()>0.4?185:0;const sat=hue===0?0:100;const light=hue===0?95:70;const alpha=0.95;p.style.cssText="left:"+(e.clientX+Math.random()*6-3)+"px;top:"+(e.clientY+Math.random()*6-3)+"px;width:"+s+"px;height:"+s+"px;background:radial-gradient(circle,hsla("+hue+","+sat+"%,"+light+"%,"+alpha+"),hsla("+hue+","+sat+"%,"+(light-15)+"%,0.6),transparent);box-shadow:0 0 "+(s*2.2)+"px hsla("+hue+","+sat+"%,"+light+"%,0.65);";trailContainer.appendChild(p);setTimeout(()=>p.remove(),1800)}});
+const cursor=document.getElementById("cursor");
+const trails=[
+  document.getElementById("trail1"),
+  document.getElementById("trail2"),
+  document.getElementById("trail3"),
+  document.getElementById("trail4"),
+  document.getElementById("trail5"),
+  document.getElementById("trail6"),
+  document.getElementById("trail7"),
+  document.getElementById("trail8")
+];
+let mouseX=0,mouseY=0;
+let cursorX=0,cursorY=0;
+let trailPositions=trails.map(()=>({x:0,y:0}));
+document.addEventListener("mousemove",e=>{mouseX=e.clientX;mouseY=e.clientY});
+function animateCursor(){
+  cursorX+=(mouseX-cursorX)*0.15;
+  cursorY+=(mouseY-cursorY)*0.15;
+  cursor.style.left=cursorX+"px";
+  cursor.style.top=cursorY+"px";
+  let prevX=cursorX,prevY=cursorY;
+  trails.forEach((trail,index)=>{
+    const speed=0.08-(index*0.008);
+    trailPositions[index].x+=(prevX-trailPositions[index].x)*speed;
+    trailPositions[index].y+=(prevY-trailPositions[index].y)*speed;
+    trail.style.left=trailPositions[index].x+"px";
+    trail.style.top=trailPositions[index].y+"px";
+    const scale=1-(index*0.1);
+    const opacity=0.8-(index*0.08);
+    trail.style.transform=`translate(-50%,-50%) rotate(-15deg) scale(${scale})`;
+    trail.style.opacity=opacity;
+    prevX=trailPositions[index].x;
+    prevY=trailPositions[index].y;
+  });
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
 document.querySelectorAll("a,button,.portfolio-item").forEach(el=>{el.addEventListener("mouseenter",()=>cursor.classList.add("hover"));el.addEventListener("mouseleave",()=>cursor.classList.remove("hover"))});
 const musicBtn=document.getElementById("musicBtn"),bgMusic=document.getElementById("bgMusic");let isPlaying=false;
 musicBtn.addEventListener("click",()=>{if(isPlaying){bgMusic.pause();musicBtn.classList.remove("playing")}else{bgMusic.play().catch(()=>{});musicBtn.classList.add("playing")}isPlaying=!isPlaying});
