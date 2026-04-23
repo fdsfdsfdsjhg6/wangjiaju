@@ -1,0 +1,33 @@
+name: Upload All Assets to Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Delete old release if exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete v1.0-all-assets --yes --cleanup-tag 2>/dev/null || true
+          git push origin :refs/tags/v1.0-all-assets 2>/dev/null || true
+          
+      - name: Create release and upload assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v1.0-all-assets \
+            --title "v1.0-all-assets" \
+            --notes "All website media assets for unified Release hosting"
+          
+          # Upload all files from assets/ recursively
+          find assets/ -type f | while read file; do
+            echo "Uploading: $file"
+            gh release upload v1.0-all-assets "$file" --clobber
+          done
+          
+          echo "All assets uploaded!"
