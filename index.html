@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -14,7 +14,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#000;color:#fff;overflow-x
 /* 自定义发光三角形鼠标 */
 .custom-cursor{position:fixed;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:14px solid #00f0ff;pointer-events:none;z-index:99999;transform:translate(-50%,-50%) rotate(-15deg);filter:drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 12px #00f0ff) drop-shadow(0 0 20px #00f0ff);transition:transform 0.05s ease-out}
 .custom-cursor::after{content:'';position:absolute;top:14px;left:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:6px solid rgba(0,240,255,0.3);filter:blur(2px)}
-/* 鼠�����拖尾特效 */
+/* 鼠标拖尾特效 */
 .cursor-trail{position:fixed;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #00f0ff;pointer-events:none;z-index:99998;transform:translate(-50%,-50%) rotate(-15deg);filter:drop-shadow(0 0 4px #00f0ff);opacity:0.8}
 .cursor-trail:nth-child(2){border-bottom-color:#00d4ff;filter:drop-shadow(0 0 5px #00d4ff);z-index:99997}
 .cursor-trail:nth-child(3){border-bottom-color:#00b8ff;filter:drop-shadow(0 0 6px #00b8ff);z-index:99996}
@@ -160,6 +160,7 @@ nav a:hover::before{width:100%}
 .video-item{position:relative}
 .play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border:3px solid rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin-left:5px;color:rgba(255,255,255,0.95);pointer-events:none;text-shadow:0 0 15px rgba(0,212,255,0.6);box-shadow:0 0 30px rgba(0,212,255,0.4),inset 0 0 20px rgba(0,212,255,0.2);transition:opacity 0.3s,transform 0.3s;z-index:5;background:rgba(0,0,0,0.3)}
 .video-item:hover .play-icon{opacity:0;transform:translate(-50%,-50%) scale(0.8)}
+
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;display:none;justify-content:center;align-items:center;cursor:zoom-out}
 .lightbox.active{display:flex}
 .lightbox-content{position:relative;max-width:90vw;max-height:90vh}
@@ -533,12 +534,12 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 </section>
 <section class="about" id="about">
 
-<div class="about-image"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/images/img-about.png" alt="王家驹"></div>
+<div class="about-image"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%9B%BE%E7%89%87%E8%83%8C%E6%99%AF%E6%9B%BF%E6%8D%A2.png" alt="王家驹"></div>
 <div class="about-content">
 <div class="section-label">About Me</div>
 <h2>关于我</h2>
 <p>深耕视觉设计领域<span class="highlight-text">5年</span>，<span class="highlight-text">50+</span>得意之作遍布商业与艺术两端。从AIGC前沿探索到传统品牌视觉，始终站在创意与技术的交叉点，用想象力重新定义视觉边界。</p>
-<p>曾与<span class="highlight-text">华为</span>、<span class="highlight-text">小米</span>、<span class="highlight-text">李宁</span>、<span class="highlight-text">完美日记</span>等知名品牌深度合作，覆盖科技、时尚、美妆等多行业。累计交付商业项目<span class="highlight-text">200+</span>，服务客户满意度<span class="highlight-text">100%</span>。擅长将AI生成技术与��业设计能力深度融合，为品牌打造兼具未来感与商业价值的视觉体验。</p>
+<p>曾与<span class="highlight-text">华为</span>、<span class="highlight-text">小米</span>、<span class="highlight-text">李宁</span>、<span class="highlight-text">完美日记</span>等知名品牌深度合作，覆盖科技、时尚、美妆等多行业。累计交付商业项目<span class="highlight-text">200+</span>，服务客户满意度<span class="highlight-text">100%</span>。擅长将AI生成技术与专业设计能力深度融合，为品牌打造兼具未来感与商业价值的视觉体验。</p>
 <div class="skills-grid">
 <span class="skill-item highlight">AI视觉艺术</span>
 <span class="skill-item highlight">AI影像创作</span>
@@ -572,7 +573,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="service-icon">🎬</div>
 <h3>拍摄与剪辑</h3>
 <p>从前期策划拍摄到后期剪辑特效，全程打造高质量视频内容，让创意动起来</p>
-<div class="service-tags"><span>���传片</span><span>短视频</span><span>后期特效</span></div>
+<div class="service-tags"><span>宣传片</span><span>短视频</span><span>后期特效</span></div>
 </div>
 <div class="service-card">
 <div class="service-icon">🔮</div>
@@ -625,8 +626,8 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="timeline-title">精细化制作</div>
 <div class="timeline-desc">运用 AIGC / C4D / PS / AE 等专业工具，将概念转化为高品质视觉作品，注重每一个细节</div>
 <div class="timeline-images">
-<img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/images/wf-screenshot172.png" alt="创作过程1">
-<img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/images/ip-process.png" alt="创作过程2">
+<img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(172).png" alt="创作过程1">
+<img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/IP%E5%BD%A2%E8%B1%A1%E5%88%B6%E4%BD%9C%E8%BF%87%E7%A8%8B2.png" alt="创作过程2">
 </div>
 <div class="timeline-tags"><span>AIGC生成</span><span>3D建模</span><span>精修渲染</span></div>
 </div>
@@ -656,38 +657,38 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <h2 class="section-title">作品集</h2>
 <div class="portfolio-grid">
 <div class="portfolio-card"><h3>AI影像</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ai-visuals/fj1.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ai-visuals/fj2.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ai-visuals/fj3.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ai-visuals/fj4.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ai-visuals/fj5.png"><div class="overlay"></div></div>
-<div class="portfolio-item video-item"><video id="aiVideo" src="https://raw.githubusercontent.com/fdsfdsfdsjhg6/wangjiaju/release/assets/video-works/trailer.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C1.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C2.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C3.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C4.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E5%88%86%E9%95%9C5.png"><div class="overlay"></div></div>
+<div class="portfolio-item video-item"><video id="aiVideo" src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/AI%E5%BD%B1%E5%83%8F/%E9%A2%84%E5%91%8A%E7%89%87.mp4?v=2" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
 </div></div>
 <div class="portfolio-card"><h3>平面设计</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/graphic-design/superman.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/graphic-design/washing-machine.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/graphic-design/ocean-outfit.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/graphic-design/crystal-brick.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/superman.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E6%B4%97%E8%A1%A3%E6%9C%BA.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E6%B5%B7%E6%B4%8B%E5%A5%97%E8%A3%85.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%B9%B3%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E9%80%8F%E6%98%8E%E6%B0%B4%E6%99%B6%E7%A0%96.jpg"><div class="overlay"></div></div>
 </div></div>
 <div class="portfolio-card"><h3>3D模型</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/3d-models/phone-white.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/3d-models/phone-render.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/3d-models/bath-white.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/3d-models/bath-render.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%89%8B%E6%9C%BA%E7%99%BD%E8%86%9C.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%89%8B%E6%9C%BA%E6%B8%B2%E6%9F%93%E5%9B%BE.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%B5%B4%E5%AE%A4%E7%99%BD%E8%86%9C.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/3D%E6%A8%A1%E5%9E%8B/%E6%B5%B4%E5%AE%A4%E6%B8%B2%E6%9F%93%E5%9B%BE.png"><div class="overlay"></div></div>
 </div></div>
-<div class="portfolio-card"><h3>���商美学</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/beer-ad1.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/beer-ad2.png"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/figure-ecom1.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/figure-ecom2.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/figure-ecom3.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/ecommerce/handsoap.png"><div class="overlay"></div></div>
+<div class="portfolio-card"><h3>电商美学</h3><div class="portfolio-items">
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E5%95%A4%E9%85%92%E5%B9%BF%E5%91%8A1.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E5%95%A4%E9%85%92%E5%B9%BF%E5%91%8A2.png"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE1.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE2.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%89%8B%E5%8A%9E%E7%94%B5%E5%95%86%E5%9B%BE3.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E7%94%B5%E5%95%86%E7%BE%8E%E5%AD%A6/%E6%B4%97%E6%89%8B%E6%B6%B2%E7%94%B5%E5%95%86%E5%9B%BE1.png"><div class="overlay"></div></div>
 </div></div>
 <div class="portfolio-card"><h3>摄影剪辑</h3><div class="portfolio-items">
-<div class="portfolio-item"><img src="https://raw.githubusercontent.com/fdsfdsfdsjhg6/wangjiaju/release/assets/video-works/clip-photo1.jpg"><div class="overlay"></div></div>
-<div class="portfolio-item"><img src="https://raw.githubusercontent.com/fdsfdsfdsjhg6/wangjiaju/release/assets/video-works/clip-photo2.jpeg"><div class="overlay"></div></div>
-<div class="portfolio-item video-item"><video id="su7Video" src="https://raw.githubusercontent.com/fdsfdsfdsjhg6/wangjiaju/release/assets/video-works/xiaomi-su7-ultra.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
-<div class="portfolio-item video-item"><video id="hangzhouVideo" src="https://raw.githubusercontent.com/fdsfdsfdsjhg6/wangjiaju/release/assets/video-works/hangzhou-geometry.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/5882ee927d974599ec3bca3a17245fef.jpg"><div class="overlay"></div></div>
+<div class="portfolio-item"><img src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/fRhmTrrUE.jpeg"><div class="overlay"></div></div>
+<div class="portfolio-item video-item"><video id="su7Video" src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/%E5%B0%8F%E7%B1%B3%E8%8B%8F7%20ultra.mp4" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
+<div class="portfolio-item video-item"><video id="hangzhouVideo" src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E7%B4%A0%E6%9D%90/%E5%89%AA%E8%BE%91/%E6%9D%AD%E5%B7%9E%E5%87%A0%E4%BD%95.mp4?v=2" muted loop preload="auto"></video><div class="overlay"></div><div class="play-icon">▶</div></div>
 </div></div>
 </div>
 </section>
@@ -749,7 +750,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 </section>
 <footer><p>© 2026 王家驹 | 创意设计师 | AIGC先锋探索者 | WJJ.STUDIO</p></footer>
 <div class="music-control"><button class="music-btn" id="musicBtn" title="播放背景音乐"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></button></div>
-<audio id="bgMusic" loop preload="auto"><source src="https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/music/bgm.ogg" type="audio/ogg"></audio>
+<audio id="bgMusic" loop preload="auto"><source src="file:///D:/%E7%88%B1%E5%88%9B%E7%BE%8E/AIGC/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B%E7%BD%91%E7%AB%99/%E9%9F%B3%E4%B9%90/Groove%20Coverage%20-%20God%20Is%20a%20Girl%20(Chillout%20Mix)_L.ogg" type="audio/ogg"></audio>
 <script>
 // ===== 进场动画音效卡点 =====
 (function(){
