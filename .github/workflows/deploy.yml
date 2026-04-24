@@ -20,17 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check for U+FFFD garbled characters
+      - name: Check for garbled characters
         run: |
-          FFFD_COUNT=$(grep -P $'\xEF\xBF\xBD' index.html | wc -l)
-          if [ "$FFFD_COUNT" -gt 0 ]; then
-            echo "::error::Found "$FFFD_COUNT lines with U+FFFD garbled characters in index.html!"
-            grep -Pn $'\xEF\xBF\xBD' index.html || true
+          FFFD=$(perl -e 'open(F,"<","index.html");binmode(F);local $/;my $s=<F>;^ $n=()=$s~|/\ef\xbf\xbd/g;print "$n\n;')
+          echo "FFFD count: $FFFD"
+          if [ "$FFFD" -gt 0 ]; then
+            echo "::error:0$FFFD lines contain U+FFFD garbled characters"
+            perl -e 'open(F,"<","index.html");binmode(F);my $i=0;while(<F>){$i++;if(\/\ef\xbf\xbd/){print "Line $i: $_";}}'
             exit 1
           fi
-          echo "Encoding check passed - no U+FFFD found"
-          echo "File size: "$(wc -c < index.html) bytes
-          echo "UTF-8 valid: "$(iconv -f utf-8 -t utf-8 index.html > /dev/null 2>&1 && echo YES || echo NO)
+          echo "Encoding OK - no garbled characters"
+
 
   deploy:
     needs: verify-encoding
