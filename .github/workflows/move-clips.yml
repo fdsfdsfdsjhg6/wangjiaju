@@ -1,0 +1,34 @@
+name: move-clips-to-images
+on:
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move clip images to assets/images/
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@users.noreply.github.com"
+          mkdir -p assets/images
+          git mv assets/video-works/clip-photo1.jpg assets/images/clip-photo1.jpg 2>/dev/null || true
+          git mv assets/video-works/clip-photo2.jpeg assets/images/clip-photo2.jpeg 2>/dev/null || true
+          # Also copy if mv fails (file might not be tracked)
+          if [ -f assets/video-works/clip-photo1.jpg ]; then
+            cp assets/video-works/clip-photo1.jpg assets/images/clip-photo1.jpg
+            git rm --cached assets/video-works/clip-photo1.jpg 2>/dev/null || true
+          fi
+          if [ -f assets/video-works/clip-photo2.jpeg ]; then
+            cp assets/video-works/clip-photo2.jpeg assets/images/clip-photo2.jpeg
+            git rm --cached assets/video-works/clip-photo2.jpeg 2>/dev/null || true
+          fi
+          git add -A
+          git diff --cached --quiet || git commit -m "Move clip images to assets/images/ to reduce video-works dir size"
+          git push
