@@ -3,6 +3,8 @@ name: Migrate Assets to Branch
 on:
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   migrate:
     runs-on: ubuntu-latest
@@ -20,7 +22,7 @@ jobs:
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/ip-process.png" -o "assets/images/ip-process.png"
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/superman.png" -o "assets/graphic-design/superman.png"
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/washing-machine.jpg" -o "assets/graphic-design/washing-machine.jpg"
-          curl -sL "https://github.com/fdsfdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/ocean-outfit.jpg" -o "assets/graphic-design/ocean-outfit.jpg"
+          curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/ocean-outfit.jpg" -o "assets/graphic-design/ocean-outfit.jpg"
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/crystal-brick.jpg" -o "assets/graphic-design/crystal-brick.jpg"
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/phone-white.jpg" -o "assets/3d-models/phone-white.jpg"
           curl -sL "https://github.com/fdsfdsfdsjhg6/wangjiaju/releases/download/v1.0-all-assets/phone-render.png" -o "assets/3d-models/phone-render.png"
@@ -64,4 +66,4 @@ jobs:
         run: |
           git tag release
           git push origin release || echo "Tag may already exist"
-          echo "✅ Done! Files now accessible via jsDelivr: https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/..."
+          echo "Done! Files now accessible via jsDelivr: https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju@release/assets/..."
