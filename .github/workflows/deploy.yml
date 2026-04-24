@@ -1,0 +1,48 @@
+name: Deploy & Verify
+
+on:
+  push:
+    branches: [main]
+    paths: ['index.html']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verify-encoding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for U+FFFD garbled characters
+        run: |
+          FFFD_COUNT=$(grep -P $'\xEF\xBF\xBD' index.html | wc -l)
+          if [ "$FFFD_COUNT" -gt 0 ]; then
+            echo "::error::Found "$FFFD_COUNT lines with U+FFFD garbled characters in index.html!"
+            grep -Pn $'\xEF\xBF\xBD' index.html || true
+            exit 1
+          fi
+          echo "Encoding check passed - no U+FFFD found"
+          echo "File size: "$(wc -c < index.html) bytes
+          echo "UTF-8 valid: "$(iconv -f utf-8 -t utf-8 index.html > /dev/null 2>&1 && echo YES || echo NO)
+
+  deploy:
+    needs: verify-encoding
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
