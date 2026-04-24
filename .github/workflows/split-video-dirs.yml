@@ -1,0 +1,35 @@
+name: split-video-dirs
+on:
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Split videos into individual directories
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@users.noreply.github.com"
+          
+          # Move each video to its own directory
+          mkdir -p assets/vids/trailer
+          mkdir -p assets/vids/xiaomi
+          mkdir -p assets/vids/hangzhou
+          
+          git mv assets/video-works/trailer.mp4 assets/vids/trailer/
+          git mv assets/video-works/xiaomi-su7-ultra.mp4 assets/vids/xiaomi/
+          git mv assets/video-works/hangzhou-geometry.mp4 assets/vids/hangzhou/
+          
+          # Remove empty directory
+          rmdir assets/video-works 2>/dev/null || true
+          
+          git add -A
+          git diff --cached --quiet || git commit -m "Split videos into individual dirs for jsDelivr 50MB limit"
+          git push
