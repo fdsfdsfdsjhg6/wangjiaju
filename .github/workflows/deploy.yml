@@ -1,4 +1,4 @@
-name: Deploy & Verify
+name: Deploy Verify
 
 on:
   push:
@@ -22,15 +22,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check for garbled characters
         run: |
-          FFFD=$(perl -e 'open(F,"<","index.html");binmode(F);local $/;my $s=<F>;^ $n=()=$s~|/\ef\xbf\xbd/g;print "$n\n;')
-          echo "FFFD count: $FFFD"
-          if [ "$FFFD" -gt 0 ]; then
-            echo "::error:0$FFFD lines contain U+FFFD garbled characters"
-            perl -e 'open(F,"<","index.html");binmode(F);my $i=0;while(<F>){$i++;if(\/\ef\xbf\xbd/){print "Line $i: $_";}}'
-            exit 1
-          fi
-          echo "Encoding OK - no garbled characters"
-
+          python3 -c "
+          import sys
+          with open('index.html','rb') as f:
+              data=f.read()
+              fffd=data.count(b'\xef\xbf\xbd')
+          if fffd>0:
+              print(f'::error::{fffd} bytes of U+FFFD found')
+              lines=data.split(b'\n')
+              for i,line in enumerate(lines,1):
+                  if b'\xef\xbf\xbd' in line:
+                      print(f'Line {i}')
+              sys.exit(1)
+          else:
+              print('Encoding OK - no garbled characters')
+          "
 
   deploy:
     needs: verify-encoding
