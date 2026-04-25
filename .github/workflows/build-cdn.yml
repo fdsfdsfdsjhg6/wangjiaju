@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout source repo
         uses: actions/checkout@v4
@@ -24,6 +26,7 @@ jobs:
             assets/3d-models
             assets/ecommerce
             assets/music
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,19 +34,18 @@ jobs:
           node-version: '20'
 
       - name: Install sharp
-        run: npm install sharp
+        run: npm install sharp --save-dev
 
-      - name: Compress images and build CDN repo
-        env:
-          QUALITY: ${{ github.event.inputs.quality || '80' }}
+      - name: Write compress script
         run: |
-          node << 'SCRIPT'
-          const fs = require('fs');
-          const path = require('path');
-          const sharp = require('sharp');
-          const { execSync } = require('child_process');
+          cat > /tmp/compress.mjs << 'EOF'
+          import fs from 'fs';
+          import path from 'path';
+          import sharp from 'sharp';
 
           const CDN_DIR = '/tmp/wangjiaju-cdn';
+          const QUALITY = parseInt(process.env.QUALITY || '80');
+
           const FILES = [
             'assets/images/img-about.png',
             'assets/images/wf-screenshot172.png',
@@ -72,106 +74,90 @@ jobs:
             'assets/music/bgm.ogg',
           ];
 
-          const quality = parseInt(process.env.QUALITY || '80');
           let totalOrig = 0, totalComp = 0;
-          const urlMap = {}; // original relative URL → new CDN URL
+          const urlMap = {};
 
           for (const file of FILES) {
-            const src = file;
-            if (!fs.existsSync(src)) {
+            if (!fs.existsSync(file)) {
               console.log('SKIP (not found): ' + file);
               continue;
             }
-            const size = fs.statSync(src).size;
+            const size = fs.statSync(file).size;
+            if (size < 100) { console.log('SKIP (empty): ' + file); continue; }
             totalOrig += size;
+
             const ext = path.extname(file).toLowerCase();
             const name = path.basename(file, ext);
             const dir = path.dirname(file);
 
+            let newSize, newPath;
+
             if (ext === '.png' && size > 1048576) {
-              // Large PNG → WebP
               const dest = path.join(CDN_DIR, dir, name + '.webp');
               fs.mkdirSync(path.dirname(dest), { recursive: true });
-              await sharp(src).webp({ quality, effort: 4 }).toFile(dest);
-              const newSize = fs.statSync(dest).size;
-              totalComp += newSize;
-              // Map: original GitHub Pages URL → new jsDelivr URL
-              const origUrl = 'https://fdsfdsfdsjhg6.github.io/wangjiaju/' + file;
-              const newUrl = 'https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju-cdn@main/' + dir + '/' + name + '.webp';
-              urlMap[origUrl] = newUrl;
-              const pct = ((1 - newSize / size) * 100).toFixed(1);
-              console.log(`${(size/1048576).toFixed(2)}→${(newSize/1048576).toFixed(2)}MB (-${pct}%) ${file}`);
+              await sharp(file).webp({ quality: QUALITY, effort: 4 }).toFile(dest);
+              newSize = fs.statSync(dest).size;
+              newPath = dir + '/' + name + '.webp';
             } else if (ext === '.jpg' || ext === '.jpeg') {
-              // JPG → WebP
               const dest = path.join(CDN_DIR, dir, name + '.webp');
               fs.mkdirSync(path.dirname(dest), { recursive: true });
-              await sharp(src).webp({ quality, effort: 4 }).toFile(dest);
-              const newSize = fs.statSync(dest).size;
-              totalComp += newSize;
-              const origUrl = 'https://fdsfdsfdsjhg6.github.io/wangjiaju/' + file;
-              const newUrl = 'https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju-cdn@main/' + dir + '/' + name + '.webp';
-              urlMap[origUrl] = newUrl;
-              const pct = ((1 - newSize / size) * 100).toFixed(1);
-              console.log(`${(size/1048576).toFixed(2)}→${(newSize/1048576).toFixed(2)}MB (-${pct}%) ${file}`);
+              await sharp(file).webp({ quality: QUALITY, effort: 4 }).toFile(dest);
+              newSize = fs.statSync(dest).size;
+              newPath = dir + '/' + name + '.webp';
             } else {
-              // Keep as-is
               const dest = path.join(CDN_DIR, file);
               fs.mkdirSync(path.dirname(dest), { recursive: true });
-              fs.copyFileSync(src, dest);
-              totalComp += size;
-              const origUrl = 'https://fdsfdsfdsjhg6.github.io/wangjiaju/' + file;
-              const newUrl = 'https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju-cdn@main/' + file;
-              urlMap[origUrl] = newUrl;
-              console.log(`${(size/1048576).toFixed(2)}MB (kept) ${file}`);
+              fs.copyFileSync(file, dest);
+              newSize = size;
+              newPath = file;
             }
+
+            totalComp += newSize;
+            const origUrl = 'https://fdsfdsfdsjhg6.github.io/wangjiaju/' + file;
+            const cdnUrl = 'https://cdn.jsdelivr.net/gh/fdsfdsfdsjhg6/wangjiaju-cdn@main/' + newPath;
+            urlMap[origUrl] = cdnUrl;
+
+            const pct = newSize < size ? ((1 - newSize / size) * 100).toFixed(1) + '% saved' : 'kept';
+            console.log(`${(size/1048576).toFixed(2)}MB -> ${(newSize/1048576).toFixed(2)}MB (${pct}) ${file}`);
           }
 
-          console.log('\n--- SUMMARY ---');
-          console.log(`Original: ${(totalOrig/1048576).toFixed(2)}MB`);
-          console.log(`Compressed: ${(totalComp/1048576).toFixed(2)}MB`);
-          console.log(`Saved: ${((1-totalComp/totalOrig)*100).toFixed(1)}%`);
-          console.log(`jsDelivr: ${totalComp > 50*1048576 ? 'EXCEED by ' + ((totalComp-50*1048576)/1048576).toFixed(2) + 'MB' : 'OK'}`);
+          console.log('\n=== SUMMARY ===');
+          console.log('Original: ' + (totalOrig/1048576).toFixed(2) + ' MB');
+          console.log('Compressed: ' + (totalComp/1048576).toFixed(2) + ' MB');
+          console.log('Saved: ' + ((1-totalComp/totalOrig)*100).toFixed(1) + '%');
+          const over = totalComp - 50*1048576;
+          console.log('jsDelivr 50MB limit: ' + (over > 0 ? 'EXCEED by ' + (over/1048576).toFixed(2) + ' MB' : 'OK'));
 
-          // Save URL mapping for index.html update
           fs.writeFileSync('/tmp/url_mapping.json', JSON.stringify(urlMap, null, 2));
-          console.log('\nURL mapping saved. Files: ' + Object.keys(urlMap).length);
-          SCRIPT
+          console.log('\nURL mapping: ' + Object.keys(urlMap).length + ' entries');
+          EOF
+
+      - name: Run compress
+        env:
+          QUALITY: ${{ github.event.inputs.quality || '80' }}
+        run: node /tmp/compress.mjs
 
       - name: Init CDN repo and push
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd /tmp/wangjiaju-cdn
-
-          # Check if CDN repo exists
-          if gh repo view fdsfdsfdsjhg6/wangjiaju-cdn >/dev/null 2>&1; then
-            echo "CDN repo exists, updating..."
-          else
-            echo "Creating CDN repo..."
-            gh repo create fdsfdsfdsjhg6/wangjiaju-cdn --public --description "CDN assets for wangjiaju website (jsDelivr)"
-          fi
-
-          # Init and push
           git init
           git checkout -b main
           git add -A
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "CDN assets: compressed images + music"
+          git commit -m "CDN assets: compressed images + music for jsDelivr"
 
-          # Force push (clean repo, no history needed)
+          # Check if CDN repo exists, create if not
+          if ! gh repo view fdsfdsfdsjhg6/wangjiaju-cdn >/dev/null 2>&1; then
+            gh repo create fdsfdsfdsjhg6/wangjiaju-cdn --public --description "CDN assets for wangjiaju website"
+          fi
+
+          # Push (force to ensure clean state)
           git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/fdsfdsfdsjhg6/wangjiaju-cdn.git
-          git push --force origin main 2>&1 || {
-            echo "Push failed, trying with gh..."
-            # Alternative: delete and recreate
-            gh repo delete fdsfdsfdsjhg6/wangjiaju-cdn --yes 2>/dev/null
-            sleep 5
-            gh repo create fdsfdsfdsjhg6/wangjiaju-cdn --public --description "CDN assets for wangjiaju website (jsDelivr)"
-            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/fdsfdsfdsjhg6/wangjiaju-cdn.git
-            git push --force origin main
-          }
-
-          echo "CDN repo pushed successfully!"
+          git push --force origin main 2>&1
+          echo "CDN repo ready!"
 
       - name: Upload URL mapping
         uses: actions/upload-artifact@v4
