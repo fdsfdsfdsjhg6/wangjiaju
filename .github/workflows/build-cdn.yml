@@ -135,6 +135,7 @@ jobs:
       - name: Run compress
         env:
           QUALITY: ${{ github.event.inputs.quality || '80' }}
+          NODE_PATH: ${{ github.workspace }}/node_modules
         run: node /tmp/compress.mjs
 
       - name: Init CDN repo and push
