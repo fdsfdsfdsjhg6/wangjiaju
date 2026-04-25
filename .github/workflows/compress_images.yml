@@ -11,9 +11,7 @@ jobs:
       pages: write
       id-token: write
       pull-requests: write
-      statuses: write
       actions: write
-      repositories: write
 
     steps:
       - name: Checkout
