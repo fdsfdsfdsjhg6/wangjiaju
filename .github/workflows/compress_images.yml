@@ -29,14 +29,6 @@ jobs:
         run: npm install sharp
 
       - name: Run compression script
-        run: node compress.js
+        run: node .github/workflows/compress.js
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff --staged --quiet || git commit -m "chore: compress images to WebP"
-          git push
