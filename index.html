@@ -498,7 +498,15 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 }
 
 /* ===== 进场动画结束 ===== */
-</style>
+
+.workflow-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;max-width:1400px;margin:0 auto}
+.workflow-img{border-radius:16px;overflow:hidden;transition:all 0.4s}
+.workflow-img img{width:100%;display:block;transition:transform 0.4s}
+.workflow-img:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,212,255,0.25)}
+.workflow-img:hover img{transform:scale(1.05)}
+@media(max-width:768px){
+  .workflow-gallery{grid-template-columns:1fr}
+}</style>
 </head>
 <body>
 <!-- 进场动画：全息投影式名字构建 -->
@@ -598,58 +606,14 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <section class="workflow" id="workflow">
 <div class="section-label">Workflow</div>
 <h2>工作流程</h2>
-<p class="workflow-desc">从创意萌芽到作品交付，每一个环节都精益求精</p>
-<div class="timeline">
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-step">STEP 01</div>
-<div class="timeline-title">创意策划</div>
-<div class="timeline-desc">深入理解品牌诉求与目标受众，通过头脑风暴和趋势研究，制定独特的创意方向与视觉策略</div>
-<div class="timeline-tags"><span>需求分析</span><span>趋势研究</span><span>创意方向</span></div>
+<div class="workflow-gallery">
+<div class="workflow-img"><img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/workflow/1.png" alt="STEP 01"></div>
+<div class="workflow-img"><img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/workflow/2.png" alt="STEP 02"></div>
+<div class="workflow-img"><img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/workflow/3.png" alt="STEP 03"></div>
+<div class="workflow-img"><img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/workflow/4.png" alt="STEP 04"></div>
+<div class="workflow-img"><img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/workflow/5.png" alt="STEP 05"></div>
 </div>
-</div>
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-step">STEP 02</div>
-<div class="timeline-title">草图与概念设计</div>
-<div class="timeline-desc">快速产出多版草图与概念稿，反复推敲构图、色彩、氛围，确定最优视觉方案</div>
-<div class="timeline-tags"><span>手绘草图</span><span>概念稿</span><span>方案评审</span></div>
-</div>
-</div>
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-step">STEP 03</div>
-<div class="timeline-title">精细化制作</div>
-<div class="timeline-desc">运用 AIGC / C4D / PS / AE 等专业工具，将概念转化为高品质视觉作品，注重每一个细节</div>
-
-<div class="timeline-tags"><span>AIGC生成</span><span>3D建模</span><span>精修渲染</span></div>
-</div>
-</div>
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-step">STEP 04</div>
-<div class="timeline-title">审核打磨</div>
-<div class="timeline-desc">多轮内部审核与细节优化，确保色彩、光影渲染、构图达到最佳呈现效果</div>
-<div class="timeline-tags"><span>质量审核</span><span>细节优化</span><span>色彩校准</span></div>
-</div>
-</div>
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-step">STEP 05</div>
-<div class="timeline-title">交付上线</div>
-<div class="timeline-desc">按规范格式交付完整源文件与应用素材，提供后续技术支持与迭代服务</div>
-<div class="timeline-tags"><span>源文件交付</span><span>多格式输出</span><span>持续支持</span></div>
-</div>
-</div>
-</div>
-</section>
-<!-- WORKFLOW END -->
-<section class="portfolio" id="portfolio">
+</section><section class="portfolio" id="portfolio">
 <h2 class="section-title">作品集</h2>
 <div class="portfolio-grid">
 <div class="portfolio-card"><h3>AI影像</h3><div class="portfolio-items">
