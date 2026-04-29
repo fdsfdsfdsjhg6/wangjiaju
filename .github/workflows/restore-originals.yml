@@ -1,0 +1,69 @@
+name: Restore Original Assets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download original images from Release
+        run: |
+          cd assets/images
+          gh release download v1.0-all-assets --pattern 'img-about.png' --clobber || true
+          cd ../..
+          cd assets/ai-visuals
+          gh release download v1.0-all-assets --pattern 'fj2.png' --pattern 'fj3.png' --pattern 'fj4.png' --pattern 'fj5.png' --clobber || true
+          cd ../..
+          cd assets/graphic-design
+          gh release download v1.0-all-assets --pattern 'superman.png' --clobber || true
+          cd ../..
+          cd assets/3d-models
+          gh release download v1.0-all-assets --pattern 'phone-render.png' --pattern 'bath-render.png' --clobber || true
+          cd ../..
+          cd assets/ecommerce
+          gh release download v1.0-all-assets --pattern 'beer-ad1.png' --pattern 'handsoap.png' --clobber || true
+          cd ../..
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete WebP compressed versions
+        run: |
+          rm -f assets/images/img-about.webp assets/images/process-A.webp assets/images/process-B.webp
+          rm -f assets/ai-visuals/fj2.webp assets/ai-visuals/fj3.webp assets/ai-visuals/fj4.webp assets/ai-visuals/fj5.webp
+          rm -f assets/graphic-design/superman.webp
+          rm -f assets/3d-models/phone-render.webp assets/3d-models/bath-render.webp
+          rm -f assets/ecommerce/beer-ad1.webp assets/ecommerce/handsoap.webp
+
+      - name: Download original videos from Release
+        run: |
+          cd videos/trailer
+          gh release download v1.0-videos --pattern 'trailer.mp4' --clobber
+          cd ../xiaomi
+          gh release download v1.0-videos --pattern 'xiaomi-su7-ultra.mp4' --clobber
+          cd ../hangzhou
+          gh release download v1.0-videos --pattern 'hangzhou-geometry.mp4' --clobber
+          cd ../..
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify and push
+        run: |
+          echo "=== Video sizes ==="
+          ls -lh videos/trailer/trailer.mp4
+          ls -lh videos/xiaomi/xiaomi-su7-ultra.mp4
+          ls -lh videos/hangzhou/hangzhou-geometry.mp4
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --stat
+          git commit -m "restore: original PNG + full-res videos (replace WebP/compressed)" || echo "No changes"
+          git push
