@@ -586,7 +586,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="service-icon">🎬</div>
 <h3>拍摄与剪辑</h3>
 <p>从前期策划拍摄到后期剪辑特效，全程打造高质量视频内容，让创意动起来</p>
-<div class="service-tags"><span>宣传片</span><span>短视频</span><span>后期特效</span></div>
+<div class="service-tags"><span>��传片</span><span>短视频</span><span>后期特效</span></div>
 </div>
 <div class="service-card">
 <div class="service-icon">🔮</div>
@@ -720,7 +720,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
                 <img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/images/gdgd.png" alt="制作流程-E" loading="lazy">
             </div>
             <div class="portfolio-item">
-                <img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/images/process-F.png" alt="制作流程-F" loading="lazy">
+                <img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/images/process-F.png" alt="制作��程-F" loading="lazy">
             </div>
             <div class="portfolio-item">
                 <img src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/images/uuuu.png" alt="制作流程-G" loading="lazy">
@@ -778,7 +778,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <div class="share-line"></div>
 <div class="share-content">
 <div class="share-name">GitHub</div>
-<div class="share-desc">开源代码仓库 · 灵感碰撞之地</div>
+<div class="share-desc">开源代码仓库 · 灵感���撞之地</div>
 </div>
 <div class="share-arrow">→</div>
 </a>
@@ -787,7 +787,29 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 </section>
 <footer><p>© 2026 王家驹 | 创意设计师 | AIGC先锋探索者 | WJJ.STUDIO</p></footer>
 <div class="music-control"><button class="music-btn" id="musicBtn" title="播放背景音乐"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></button></div>
-<audio id="bgMusic" loop preload="auto"><source src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/bgm.ogg" type="audio/ogg"></audio>
+<!-- 三首背景音乐播放列表 -->
+<audio id="bgMusic" preload="auto">
+  <source id="bgMusicSource" src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/1.ogg" type="audio/ogg">
+</audio>
+<script>
+// 三首歌播放列表
+const playlist = [
+  'https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/1.ogg',
+  'https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/2.mp3',
+  'https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/3.mp3'
+];
+let currentTrack = 0;
+const bgMusic = document.getElementById('bgMusic');
+const bgMusicSource = document.getElementById('bgMusicSource');
+
+// 自动播放下一首
+bgMusic.addEventListener('ended', function() {
+  currentTrack = (currentTrack + 1) % playlist.length;
+  bgMusicSource.src = playlist[currentTrack];
+  bgMusic.load();
+  bgMusic.play().catch(()=>{});
+});
+</script>
 <script>
 // ===== 开场动画音效卡点 =====
 (function(){
@@ -835,7 +857,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
     // 2.4s — 消失：轻微冲击
     playTone(150,'sine',0.3,2400,0.05,60);
   }catch(e){}
-  // 3秒后移除进场覆盖层
+  // 3秒后移除���场覆盖层
   setTimeout(()=>{
     const overlay=document.getElementById('intro-overlay');
     if(overlay){
@@ -892,8 +914,28 @@ function animateCursor(){
 animateCursor();
 document.querySelectorAll("a,button,.portfolio-item").forEach(el=>{el.addEventListener("mouseenter",()=>cursor.classList.add("hover"));el.addEventListener("mouseleave",()=>cursor.classList.remove("hover"))});
 const musicBtn=document.getElementById("musicBtn"),bgMusic=document.getElementById("bgMusic");let isPlaying=false;
-musicBtn.addEventListener("click",()=>{if(isPlaying){bgMusic.pause();musicBtn.classList.remove("playing")}else{bgMusic.play().catch(()=>{});musicBtn.classList.add("playing")}isPlaying=!isPlaying});
-document.body.addEventListener("click",()=>{if(!isPlaying){bgMusic.play().then(()=>{isPlaying=true;musicBtn.classList.add("playing")}).catch(()=>{})}},{once:true});
+musicBtn.addEventListener("click",()=>{
+  if(isPlaying){
+    bgMusic.pause();
+    musicBtn.classList.remove("playing");
+  }else{
+    bgMusicSource.src = playlist[currentTrack];
+    bgMusic.load();
+    bgMusic.play().catch(()=>{});
+    musicBtn.classList.add("playing");
+  }
+  isPlaying=!isPlaying;
+});
+document.body.addEventListener("click",()=>{
+  if(!isPlaying){
+    bgMusicSource.src = playlist[currentTrack];
+    bgMusic.load();
+    bgMusic.play().then(()=>{
+      isPlaying=true;
+      musicBtn.classList.add("playing");
+    }).catch(()=>{});
+  }
+},{once:true});
 // Lightbox functionality
 var lightbox=document.getElementById('lightbox'),lightboxImg=document.getElementById('lightbox-img'),lightboxVideo=document.getElementById('lightbox-video');
 document.querySelectorAll('.portfolio-item').forEach(item=>{item.addEventListener('click',function(e){e.stopPropagation();lightbox.classList.add('active');var img=this.querySelector('img');var video=this.querySelector('video');lightboxImg.removeAttribute('style');lightboxVideo.removeAttribute('style');if(img){lightboxImg.src=img.src;lightbox.classList.remove('video-mode')}else if(video){lightbox.classList.add('video-mode');lightboxVideo.src=video.src;lightboxVideo.play()}})});
