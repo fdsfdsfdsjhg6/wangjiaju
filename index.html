@@ -792,4 +792,190 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
   <source id="bgMusicSource" src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/1.ogg" type="audio/ogg">
 </audio>
 
+<script>
+// ===== 开场动画音效卡点 =====
+(function(){
+  try{
+    const actx=new(window.AudioContext||window.webkitAudioContext)();
+    function playTone(freq,type,dur,delay,vol,ramp){
+      setTimeout(()=>{
+        const o=actx.createOscillator(),g=actx.createGain();
+        o.type=type;o.frequency.setValueAtTime(freq,actx.currentTime);
+        if(ramp)o.frequency.exponentialRampToValueAtTime(ramp,actx.currentTime+dur);
+        g.gain.setValueAtTime(vol||0.12,actx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+dur);
+        o.connect(g);g.connect(actx.destination);
+        o.start();o.stop(actx.currentTime+dur);
+      },delay)
+    }
+    function playNoise(dur,delay,vol){
+      setTimeout(()=>{
+        const buf=actx.createBuffer(1,actx.sampleRate*dur,actx.sampleRate),
+          d=buf.getChannelData(0),g=actx.createGain(),f=actx.createBiquadFilter();
+        for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(d.length*0.15));
+        f.type='bandpass';f.frequency.setValueAtTime(3000,actx.currentTime);f.Q.setValueAtTime(2,actx.currentTime);
+        g.gain.setValueAtTime(vol||0.08,actx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+dur);
+        f.connect(g);g.connect(actx.destination);
+        const s=actx.createBufferSource();s.buffer=buf;s.connect(f);s.start();
+      },delay)
+    }
+    // 0.0s — 低频轰鸣（WJJ开始聚合）
+    playTone(80,'sine',0.8,0,0.15,40);
+    playTone(200,'triangle',0.5,0,0.06);
+    // 0.3s — 扫描线扫过：高频sweep
+    playTone(800,'sine',0.5,300,0.07,6000);
+    playNoise(0.15,300,0.05);
+    // 0.8s — WJJ聚合完成：短促电子音
+    playTone(600,'square',0.1,800,0.08);
+    playTone(900,'sine',0.15,830,0.06,1200);
+    playNoise(0.08,800,0.04);
+    // 1.2s — "王家驹"出现：上升音调
+    playTone(300,'sine',0.4,1200,0.1,800);
+    playTone(450,'triangle',0.3,1250,0.05);
+    // 1.9s — 飘散：下落glitch音
+    playTone(1000,'sine',0.3,1900,0.06,200);
+    playNoise(0.2,1900,0.03);
+    // 2.4s — 消失：轻微冲击
+    playTone(150,'sine',0.3,2400,0.05,60);
+  }catch(e){}
+  // 3秒后移除���场覆盖层
+  setTimeout(()=>{
+    const overlay=document.getElementById('intro-overlay');
+    if(overlay){
+      setTimeout(()=>overlay.remove(),600);
+    }
+  },2500);
+})();
+
+const canvas=document.getElementById("starfield"),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,2000),renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const starsGeometry=new THREE.BufferGeometry(),starCount=3000,positions=new Float32Array(starCount*3),colors=new Float32Array(starCount*3);
+for(let i=0;i<starCount;i++){const i3=i*3;positions[i3]=(Math.random()-0.5)*2000;positions[i3+1]=(Math.random()-0.5)*2000;positions[i3+2]=(Math.random()-0.5)*2000;const c=new THREE.Color();c.setHSL(Math.random()*0.2+0.5,0.9,Math.random()*0.5+0.5);colors[i3]=c.r;colors[i3+1]=c.g;colors[i3+2]=c.b}
+starsGeometry.setAttribute("position",new THREE.BufferAttribute(positions,3));starsGeometry.setAttribute("color",new THREE.BufferAttribute(colors,3));
+const starsMaterial=new THREE.PointsMaterial({size:2,vertexColors:true,transparent:true,opacity:0.8,sizeAttenuation:true}),starField=new THREE.Points(starsGeometry,starsMaterial);
+scene.add(starField);camera.position.z=500;
+function animate(){requestAnimationFrame(animate);starField.rotation.y+=0.0002;starField.rotation.x+=0.0001;renderer.render(scene,camera)}animate();
+addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+const cursor=document.getElementById("cursor");
+const trails=[
+  document.getElementById("trail1"),
+  document.getElementById("trail2"),
+  document.getElementById("trail3"),
+  document.getElementById("trail4"),
+  document.getElementById("trail5"),
+  document.getElementById("trail6"),
+  document.getElementById("trail7"),
+  document.getElementById("trail8")
+];
+let mouseX=0,mouseY=0;
+let cursorX=0,cursorY=0;
+let trailPositions=trails.map(()=>({x:0,y:0}));
+document.addEventListener("mousemove",e=>{mouseX=e.clientX;mouseY=e.clientY});
+function animateCursor(){
+  cursorX+=(mouseX-cursorX)*0.15;
+  cursorY+=(mouseY-cursorY)*0.15;
+  cursor.style.left=cursorX+"px";
+  cursor.style.top=cursorY+"px";
+  let prevX=cursorX,prevY=cursorY;
+  trails.forEach((trail,index)=>{
+    const speed=0.08-(index*0.008);
+    trailPositions[index].x+=(prevX-trailPositions[index].x)*speed;
+    trailPositions[index].y+=(prevY-trailPositions[index].y)*speed;
+    trail.style.left=trailPositions[index].x+"px";
+    trail.style.top=trailPositions[index].y+"px";
+    const scale=1-(index*0.1);
+    const opacity=0.8-(index*0.08);
+    trail.style.transform=`translate(-50%,-50%) rotate(-15deg) scale(${scale})`;
+    trail.style.opacity=opacity;
+    prevX=trailPositions[index].x;
+    prevY=trailPositions[index].y;
+  });
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll("a,button,.portfolio-item").forEach(el=>{el.addEventListener("mouseenter",()=>cursor.classList.add("hover"));el.addEventListener("mouseleave",()=>cursor.classList.remove("hover"))});
+const musicBtn=document.getElementById("musicBtn"),bgMusic=document.getElementById("bgMusic");let isPlaying=false;
+musicBtn.addEventListener("click",()=>{
+  if(isPlaying){
+    bgMusic.pause();
+    musicBtn.classList.remove("playing");
+  }else{
+    bgMusicSource.src = playlist[currentTrack];
+    bgMusic.load();
+    bgMusic.play().catch(()=>{});
+    musicBtn.classList.add("playing");
+  }
+  isPlaying=!isPlaying;
+});
+document.body.addEventListener("click",()=>{
+  if(!isPlaying){
+    bgMusicSource.src = playlist[currentTrack];
+    bgMusic.load();
+    bgMusic.play().then(()=>{
+      isPlaying=true;
+      musicBtn.classList.add("playing");
+    }).catch(()=>{});
+  }
+},{once:true});
+// Lightbox functionality
+var lightbox=document.getElementById('lightbox'),lightboxImg=document.getElementById('lightbox-img'),lightboxVideo=document.getElementById('lightbox-video');
+document.querySelectorAll('.portfolio-item').forEach(item=>{item.addEventListener('click',function(e){e.stopPropagation();lightbox.classList.add('active');var img=this.querySelector('img');var video=this.querySelector('video');lightboxImg.removeAttribute('style');lightboxVideo.removeAttribute('style');if(img){lightboxImg.src=img.src;lightbox.classList.remove('video-mode')}else if(video){lightbox.classList.add('video-mode');lightboxVideo.src=video.src;lightboxVideo.play()}})});
+lightbox.addEventListener('click',function(){this.classList.remove('active','video-mode');lightboxVideo.pause();lightboxVideo.src=''});
+document.querySelectorAll('.lightbox-close').addEventListener||document.querySelector('.lightbox-close').addEventListener('click',function(){lightbox.classList.remove('active','video-mode');lightboxVideo.pause();lightboxVideo.src=''});
+// Workflow images lightbox
+document.querySelectorAll('.timeline-images img').forEach(function(img){img.addEventListener('click',function(e){e.stopPropagation();lightbox.classList.remove('video-mode');lightboxImg.removeAttribute('style');lightboxImg.src=this.src;lightbox.classList.add('active')})});
+// AI video - show 17s frame, play from start
+var aiVideo=document.getElementById('aiVideo');
+if(aiVideo){aiVideo.addEventListener('loadedmetadata',function(){this.currentTime=17;this.pause()});aiVideo.load();}
+// SU7 video - show 14s frame
+var su7Video=document.getElementById('su7Video');
+if(su7Video){su7Video.addEventListener('loadedmetadata',function(){this.currentTime=14;this.pause()});su7Video.load();}
+// Hangzhou video - show 5.5s frame
+var hangzhouVideo=document.getElementById('hangzhouVideo');
+if(hangzhouVideo){hangzhouVideo.addEventListener('loadedmetadata',function(){this.currentTime=5.5;this.pause()});hangzhouVideo.load();}
+document.querySelectorAll(".portfolio-item video").forEach(v=>{v.parentElement.addEventListener("mouseenter",()=>{if(v.id==='aiVideo'||v.id==='su7Video'||v.id==='hangzhouVideo')v.currentTime=0;v.play()});v.parentElement.addEventListener("mouseleave",()=>v.pause())});
+window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("loading").classList.add("hidden")},1500)});
+document.querySelectorAll("nav a").forEach(l=>{l.addEventListener("click",e=>{e.preventDefault();document.querySelector(l.getAttribute("href")).scrollIntoView({behavior:"smooth"})})});
+
+
+// Match WANG JIAJU width to 王家驹
+(function(){
+  function matchWidth(){
+    var en=document.querySelector('.hero-en'),h1=document.querySelector('.hero h1');
+    if(!en||!h1)return;
+    var targetW=h1.offsetWidth, textW=en.scrollWidth;
+    if(textW>0&&targetW>0){
+      var chars='WANG JIAJU'.replace(/ /g,'').length;
+      en.style.letterSpacing=((targetW-textW)/(chars-1)+2)+'px';
+    }
+  }
+  matchWidth();window.addEventListener('resize',matchWidth);
+})();
+// ===== 汉堡菜单 =====
+(function(){
+  var btn=document.getElementById('hamburgerBtn'),
+      nav=document.getElementById('mainNav'),
+      overlay=document.getElementById('navOverlay');
+  function toggleNav(){
+    var open=nav.classList.toggle('open');
+    btn.classList.toggle('active',open);
+    overlay.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+  btn.addEventListener('click',toggleNav);
+  overlay.addEventListener('click',toggleNav);
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      nav.classList.remove('open');
+      btn.classList.remove('active');
+      overlay.classList.remove('open');
+      document.body.style.overflow='';
+      var target=document.querySelector(this.getAttribute('href'));
+      if(target)target.scrollIntoView({behavior:'smooth'});
+    });
+  });
+})();
+</script>
 </body>
+</html>
