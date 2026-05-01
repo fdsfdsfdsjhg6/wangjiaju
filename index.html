@@ -788,7 +788,7 @@ footer{padding:40px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px
 <footer><p>© 2026 王家驹 | 创意设计师 | AIGC先锋探索者 | WJJ.STUDIO</p></footer>
 <div class="music-control"><button class="music-btn" id="musicBtn" title="播放背景音乐"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></button></div>
 <!-- 三首背景音乐播放列表 -->
-<audio id="bgMusic" preload="auto">
+<audio id="bgMusic" preload="auto" loop>
   <source id="bgMusicSource" src="https://fdsfdsfdsjhg6.github.io/wangjiaju/assets/music/1.ogg" type="audio/ogg">
 </audio>
 <script>
@@ -909,6 +909,11 @@ musicBtn.addEventListener("click",()=>{
     bgMusicSource.src = playlist[currentTrack];
     bgMusic.load();
     bgMusic.play().catch(()=>{});
+    // Loop when ended
+  bgMusic.addEventListener('ended', function() {
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+  });
     musicBtn.classList.add("playing");
   }
   isPlaying=!isPlaying;
