@@ -906,8 +906,6 @@ musicBtn.addEventListener("click",()=>{
     bgMusic.pause();
     musicBtn.classList.remove("playing");
   }else{
-    bgMusicSource.src = playlist[currentTrack];
-    bgMusic.load();
     bgMusic.play().catch(()=>{});
     musicBtn.classList.add("playing");
   }
